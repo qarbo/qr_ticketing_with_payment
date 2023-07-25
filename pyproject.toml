@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "little-elista"
+version = "0.1.0"
+description = ""
+authors = ["Chingis <chingiskarbushov@live.ru>"]
+readme = "README.md"
+packages = [{include = "little_elista"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "4.2.3"
+cffi = "1.15.1"
+six = "1.16.0"
+sqlparse = "0.4.4"
+pydantic = "^2.0.3"
+psycopg2 = "^2.9.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
