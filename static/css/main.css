@@ -1,10 +1,48 @@
-body {
+
+
+#main {
+    transition: all 0.2s ease;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding-top: 60px ;
     font-family: Arial, sans-serif;
     background-color: #212121;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.white-form-text {
+    color: #f0f0f0;
+    font-size: 12px;
+}
+
+#menu-button:hover .menu-button-line:nth-child(1) {
+    top: 0;
+}
+#menu-button:hover .menu-button-line:nth-child(3) {
+    bottom: 0;
+}
+.menu-button-line:nth-child(1) {
+    position: absolute;
+    top: 3px;
+}
+.menu-button-line:nth-child(2) {
+    position: absolute;
+    top: 14px;
+}
+.menu-button-line:nth-child(3) {
+    position: absolute;
+    bottom: 2px;
+}
+.menu-button-line {
+    transition: all ease 0.2s;
+    background-color: white;
+    width: 30px;
+    height: 2px;
 }
 
 h2 {
@@ -36,13 +74,15 @@ button {
 .poster {
     width: 400px;
     height: 475px;
-    background-image: url('../img/poster_dark3 1_cut.png');
+    background-image: url('../img/poster.png');
     background-size: cover;
 }
 
 form {
     background-color: rgba(0, 0, 0, 0);
     border: none;
+    display: flex;
+    flex-direction: column;
 }
 
 form p {
@@ -68,4 +108,44 @@ form ul {
     font-size: 12px;
     color: #888;
     margin-top: 5px;
+}
+
+a {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit the color from the parent element */
+}
+
+/* Dark link styles */
+a.dark-link {
+    color: #fff; /* Text color for the link */
+    background-color: #333; /* Background color for the link */
+    padding: 10px 20px; /* Padding around the link text */
+    border-radius: 5px; /* Rounded corners for the link */
+    display: inline-block; /* Display as a block-level element */
+    transition: background-color 0.3s ease; /* Smooth transition effect */
+}
+
+/* Hover styles (optional) */
+a.dark-link:hover {
+    background-color: #555; /* Darken the background color on hover */
+}
+
+.margin-top-25 {
+    margin-top: 25px;
+}
+
+.margin-bottom-25 {
+    margin-bottom: 25px;
+}
+
+@media screen and (max-width: 650px) {
+    .text-block {
+        width: 100%;
+    }
+    #second-block p {
+        font-size: 12px;
+    }
+    .gallery-widget {
+        display: none;
+    }
 }

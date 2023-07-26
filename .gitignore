@@ -1,0 +1,21 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Python ###
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+# Local development configuration
+/.idea/workspace.xml
+/.idea/tasks.xml
+/.idea/dictionaries
+# PyCharm window management
+/.idea/window.vc
+# Python localization
+*.pot
+*.pyi
+# Add more entries as needed based on your project structure and PyCharm settings.

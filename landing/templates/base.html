@@ -1,0 +1,41 @@
+<!-- base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Asia days{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/elements.css' %}">
+</head>
+<body>
+	<div id="main">
+		{% block content %}{% endblock %}
+		<footer>
+			<p>Contact us:</p>
+			<div class="social-block">
+				<a href="https://www.facebook.com/chingiskarbushov" target="_blank">
+					<div class="social facebook" style="background-image: url({% static 'img/facebook.png' %});"></div>
+				</a>
+				<div class="social"></div>
+				<a href="https://www.instagram.com/k4rbo/" target="_blank">
+					<div class="social instagram" style="background-image: url({% static 'img/instagram.png' %});"></div>
+				</a>
+				<div class="social"></div>
+				<a href="mailto:chingiskarbushov@live.ru" target="_blank">
+					<div class="social " style="background-image: url({% static 'img/email.png' %});"></div>
+				</a>
+			</div>
+		</footer>
+	</div>
+	<div id='topLine'>
+		<div id="menu-button" onclick="pushMenu()">
+			<div class="menu-button-line"></div>
+			<div class="menu-button-line"></div>
+			<div class="menu-button-line"></div>
+		</div>
+		<a id="logo" href="{% url 'landing_page' %}" style="background-image: url({% static 'img/logo_header.png' %});" onclick="logoButton()">
+		</a>
+		<div id="playground-button" style="background-image: url({% static 'logo_small.png' %});"></div>
+	</div>
+</body>
+</html>
