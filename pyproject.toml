@@ -14,6 +14,9 @@ six = "1.16.0"
 sqlparse = "0.4.4"
 pydantic = "^2.0.3"
 psycopg2 = "^2.9.6"
+psycopg2-binary = "^2.9.6"
+stripe = "^5.5.0"
+djangorestframework = "^3.14.0"
 
 
 [build-system]

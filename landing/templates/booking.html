@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asia Days</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <div class="poster">
+
+    </div>
+
+    {% if username %}
+        <h1>Hello, {{ username }}!</h1>
+        <p>Welcome to our website.</p>
+    {% else %}
+        <h1>Hello, Guest!</h1>
+        <p>Please log in to see personalized content.</p>
+    {% endif %}
+
+    <a href="https://buy.stripe.com/test_14k5n6ccK7orgog6op">PAY</a>
+</body>
+</html>
