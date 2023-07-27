@@ -1,5 +1,6 @@
 <!-- home.html -->
 {% extends 'base.html' %}
+{% csrf_token %}
 
 {% block content %}
     <p class="white-form-text">Already have account?</p>
@@ -8,6 +9,6 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Register</button>
+        <button type="submit">Continue</button>
     </form>
 {% endblock %}

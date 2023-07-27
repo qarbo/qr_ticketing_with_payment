@@ -1,21 +1,38 @@
-# Created by .ignore support plugin (hsz.mobi)
-### Python ###
-*.pyc
-*.pyo
-*.pyd
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
 *.so
-*.egg
-*.egg-info/
+
+# Distribution / packaging
 dist/
 build/
-# Local development configuration
-/.idea/workspace.xml
-/.idea/tasks.xml
-/.idea/dictionaries
-# PyCharm window management
-/.idea/window.vc
-# Python localization
-*.pot
-*.pyi
-# Add more entries as needed based on your project structure and PyCharm settings.
+*.egg-info/
+*.egg
+
+# Compiled Python files
+*.pyc
+*.pyo
+
+# Local development settings
+settings_local.py
+
+# IDE-specific files (PyCharm)
+.idea/
+*.iml
+*.iws
+*.ipr
+*.ids
+*.orig
+*.pydevproject
+.idea_modules/
+*.komodoproject
+.project
+.pydevproject
+.vscode/
+.idea
+
+# Virtual environment (optional if you have a separate virtualenv directory)
+venv/

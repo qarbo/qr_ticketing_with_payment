@@ -1,8 +1,10 @@
 
+body {
+    margin: 0;
+}
 
 #main {
     transition: all 0.2s ease;
-    position: absolute;
     left: 0;
     right: 0;
     top: 0;
@@ -72,10 +74,11 @@ button {
 }
 
 .poster {
-    width: 400px;
-    height: 475px;
+    width: 30vw;
+    height: calc(30vw * 11.5/9);
     background-image: url('../img/poster.png');
     background-size: cover;
+    background-color: #f1f1f1;
 }
 
 form {
@@ -147,5 +150,9 @@ a.dark-link:hover {
     }
     .gallery-widget {
         display: none;
+    }
+    .poster {
+        width: 100vw;
+        height: calc(100vw * 11.5/9);
     }
 }

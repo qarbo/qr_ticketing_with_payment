@@ -5,14 +5,12 @@
     <div class="poster">
     </div>
 
-    {% if username %}
-        <h1 class="white-form-text">Hello, {{ username }}!</h1>
-    {% else %}
-        <h1>Hello, Guest!</h1>
-        <p>Please log in to see personalized content.</p>
-    {% endif %}
 
-    <a class="dark-link" href="https://buy.stripe.com/test_14k5n6ccK7orgog6op">PAY</a>
+    <form action="/booking/create-checkout-session/" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" id="checkout-button">Checkout</button>
+    </form>
 
 
 

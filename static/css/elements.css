@@ -67,6 +67,38 @@ footer {
 }
 
 
+select {
+  /* Set the background and text color */
+  background-color: #333;
+  color: #fff;
+  /* Set the border color and remove default styles */
+  border: 1px solid #666;
+  border-radius: 4px;
+  outline: none; /* Remove focus border on click */
+  /* Add padding and adjust the appearance */
+  padding: 8px;
+  appearance: none;
+  /* Add custom arrow icon */
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+
+/* Styling for the dropdown options */
+select option {
+  /* Set the background and text color for the options */
+  background-color: #444;
+  color: #fff;
+  /* Add padding to the options */
+  padding: 8px;
+}
+
+/* Hover and focus styles for options */
+select option:hover,
+select option:focus {
+  background-color: #555;
+}
+
+
 .only-mobile {
     display: none;
 }

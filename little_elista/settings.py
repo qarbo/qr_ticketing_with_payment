@@ -13,17 +13,32 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+# from configs import database_settings
+
+DEV_ENVIRONMENT = "DEV"
+PROD_ENVIRONMENT = "PROD"
+
+environment = os.environ.get("ENV", DEV_ENVIRONMENT)
+
+CSRF_TRUSTED_ORIGINS = ['https://asiadays.us']
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+AUTH_USER_MODEL = 'booking.CustomUser'
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+STATIC_ROOT = os.path.join(BASE_DIR, "assets/")
 SECRET_KEY = "django-insecure-nn(4d*j)^bh0fjuy46!wfyy-^(3#y(hn$=!%bla!+ddy@#xh^y"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if environment == PROD_ENVIRONMENT:
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -38,7 +53,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "booking",
-    "landing"
+    "landing",
+    "phonenumber_field"
 ]
 
 MIDDLEWARE = [
@@ -132,3 +148,8 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+#Stripe settings
+
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")

@@ -17,6 +17,11 @@ psycopg2-binary = "^2.9.6"
 stripe = "^5.5.0"
 djangorestframework = "^3.14.0"
 gunicorn = "^21.2.0"
+uwsgi = "^2.0.21"
+psycopg2 = "^2.9.6"
+django-phonenumber-field = "^7.1.0"
+django-phonenumbers = "^1.0.1"
+pydantic-settings = "^2.0.2"
 
 
 [build-system]
