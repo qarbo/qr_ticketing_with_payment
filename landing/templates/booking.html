@@ -1,8 +1,11 @@
 <!-- home.html -->
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <div class="poster">
+    <div class="schemes-container">
+    <img class="lower-level" src="{% static '/img/lower_level.jpg' %}">
+    <img class="upper-level" src="{% static '/img/upper_level.jpg' %}">
     </div>
 
 

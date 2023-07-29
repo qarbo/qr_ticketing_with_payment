@@ -36,3 +36,4 @@ settings_local.py
 
 # Virtual environment (optional if you have a separate virtualenv directory)
 venv/
+.env

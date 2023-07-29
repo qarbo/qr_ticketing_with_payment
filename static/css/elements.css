@@ -28,6 +28,20 @@
 	background-size: 100%;
 }
 
+#main {
+    transition: all 0.2s ease;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding-top: 60px ;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+
 footer {
     display: flex;
     flex-direction: column;
@@ -97,6 +111,58 @@ select option:hover,
 select option:focus {
   background-color: #555;
 }
+
+div.schemes-container, img {
+    margin: 0;
+    padding: 0;
+}
+
+/* Set the container width to accommodate the two images */
+div.schemes-container {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
+    flex-direction: row;
+    width: 70%;
+    flex-wrap: wrap;
+}
+
+/* Set the image width to 50% to display them side by side */
+div.schemes-container img {
+    height: 500px;
+    display: inline-block;
+    vertical-align: top; /* Align images to the top to avoid extra spacing */
+    margin-top: 5px;
+}
+
+.dark-input {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 16px;
+}
+
+/* Style the input placeholder text */
+.dark-input::placeholder {
+    color: #aaa;
+}
+
+/* Style the submit button (you can customize this as well) */
+input[type="submit"] {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
 
 
 .only-mobile {

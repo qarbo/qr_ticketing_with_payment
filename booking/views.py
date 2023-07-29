@@ -19,25 +19,22 @@ def booking_page(request):
 @login_required
 def checkout(request):
     if request.method == 'POST':
-        try:
-            booking = Booking()
-            booking.user = request.user
-            booking.save()
-            checkout_session = stripe.checkout.Session.create(
-                line_items=[
-                    {
-                        "price": "price_1NXyYgEfhjLWHR5AL0793bnL",
-                        "quantity": 1
-                    }
-                ],
+        booking = Booking()
+        booking.user = request.user
+        booking.save()
+        checkout_session = stripe.checkout.Session.create(
+            line_items=[
+                {
+                    "price": "price_1NXyYgEfhjLWHR5AL0793bnL",
+                    "quantity": 1
+                }
+            ],
 
-                mode="payment",
-                success_url=f"http://127.0.0.1:8000/booking/success/?booking={booking.uuid}",
-                cancel_url="http://127.0.0.1:8000/",
-            )
-            return redirect(checkout_session.url)
-        except Exception as e:
-            pass
+            mode="payment",
+            success_url=f"{request.META['HTTP_ORIGIN']}/booking/success/?booking={booking.uuid}",
+            cancel_url=f"{request.META['HTTP_ORIGIN']}/",
+        )
+        return redirect(checkout_session.url)
 
 
 def success(request):

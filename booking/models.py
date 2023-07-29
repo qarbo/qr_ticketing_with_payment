@@ -52,7 +52,7 @@ class CustomUser(AbstractUser):
 class Booking(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    num_guests = models.PositiveIntegerField(default=1)
+    num_guests = models.PositiveIntegerField(default=0)
     checked_guests = models.PositiveIntegerField(default=0)
     paid = models.BooleanField(default=False)
 
@@ -60,7 +60,7 @@ class Booking(models.Model):
     # Add more fields as per your application's requirements
 
     def __str__(self):
-        return f"{self.user} - {self.check_in_date} to {self.check_out_date}"
+        return f"{self.uuid}"
 
 
 class Table(models.Model):

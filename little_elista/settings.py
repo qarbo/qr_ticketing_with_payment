@@ -12,8 +12,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # from configs import database_settings
+
+load_dotenv()
 
 DEV_ENVIRONMENT = "DEV"
 PROD_ENVIRONMENT = "PROD"
@@ -32,7 +36,8 @@ AUTH_USER_MODEL = 'booking.CustomUser'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 STATIC_ROOT = os.path.join(BASE_DIR, "assets/")
-SECRET_KEY = "django-insecure-nn(4d*j)^bh0fjuy46!wfyy-^(3#y(hn$=!%bla!+ddy@#xh^y"
+SECRET_KEY = ("django-insecure-nn(4d*j)"
+              "^bh0fjuy46!wfyy-^(3#y(hn$=!%bla!+ddy@#xh^y")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if environment == PROD_ENVIRONMENT:
