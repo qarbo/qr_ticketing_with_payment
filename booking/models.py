@@ -82,7 +82,8 @@ class Table(models.Model):
 
 
     def __str__(self):
-        return {self.zone.name} if self.zone else "" + f"{self.name} - {self.number_of_seats} seats"
+        if self.zone:
+            return self.zone.name if self.zone else "" + f"{self.name} - {self.number_of_seats} seats"
 
 
 class Payment(models.Model):
