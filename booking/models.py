@@ -64,17 +64,22 @@ class Booking(models.Model):
         return f"Booking {self.user.email} - {self.id}"
 
 
+class Zone(models.Model):
+    name = models.CharField(max_length=32)
+
+
 class Table(models.Model):
     number_of_seats = models.IntegerField()
     full_price = models.FloatField()
     deposit = models.FloatField()
     name = models.CharField(max_length=32)
+    zone = models.ForeignKey(Zone, null=True, blank=True, on_delete=models.SET_NULL, related_name='tables')
     booking = models.ForeignKey(Booking, on_delete=models.SET_NULL, null=True, blank=True, related_name='tables')
     stripe_price = models.CharField(max_length=256)
 
 
     def __str__(self):
-        return f"{self.name} - {self.number_of_seats} seats"
+        return {self.zone.name} if self.zone else "" + f"{self.name} - {self.number_of_seats} seats"
 
 
 class Payment(models.Model):
