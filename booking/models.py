@@ -46,21 +46,22 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     def __str__(self):
-        return self.email
+        return f"{self.email} ({self.phone_number})"
 
 
 class Booking(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    num_guests = models.PositiveIntegerField(default=0)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    payment_uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='bookings')
+    bar_guests = models.PositiveIntegerField(default=0)
     checked_guests = models.PositiveIntegerField(default=0)
     paid = models.BooleanField(default=False)
-
+    created_at = models.DateTimeField(auto_now_add=True)
 
     # Add more fields as per your application's requirements
 
     def __str__(self):
-        return f"{self.uuid}"
+        return f"Booking {self.user.email} - {self.id}"
 
 
 class Table(models.Model):
@@ -69,9 +70,11 @@ class Table(models.Model):
     deposit = models.FloatField()
     name = models.CharField(max_length=32)
     booking = models.ForeignKey(Booking, on_delete=models.SET_NULL, null=True, blank=True, related_name='tables')
+    stripe_price = models.CharField(max_length=256)
+
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name} - {self.number_of_seats} seats"
 
 
 class Payment(models.Model):

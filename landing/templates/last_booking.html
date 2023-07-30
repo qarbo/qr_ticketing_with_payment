@@ -7,8 +7,7 @@
     <img class="lower-level" src="{% static '/img/lower_level.jpg' %}">
     <img class="upper-level" src="{% static '/img/upper_level.jpg' %}">
     </div>
-
-
+    <p style="color: #f0f0f0">You need to pay for this booking, otherwise it will be deleted at {{ pay_by }}</p>
     <form action="/booking/create-checkout-session/" method="post">
         {% csrf_token %}
         {{ form.as_p }}
@@ -16,8 +15,5 @@
         <div class="final-price"></div>
         <button type="submit" id="checkout-button">Checkout</button>
     </form>
-
-
-
-        <a class="dark-link" href="{% url 'logout' %}">Logout</a>
+        <a class="dark-link" href="{% url 'logout' %}">Delete booking</a>
 {% endblock %}

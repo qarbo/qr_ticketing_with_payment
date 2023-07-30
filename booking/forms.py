@@ -1,21 +1,32 @@
 from django import forms
+from django.db.models import Q
 
 from booking.models import Booking, Table
 
 
 class BookingForm(forms.ModelForm):
-    tables = forms.ModelMultipleChoiceField(
+
+    def __init__(self, *args, user_id=None, **kwargs):
+        super(BookingForm, self).__init__(*args, **kwargs)
+
+        # Filter the queryset for the 'user' field based on the user_id
+        if user_id:
+            self.fields['tables'].queryset = Table.objects.filter(Q(booking=None) | Q(booking__user_id=user_id))
+            if tables := self.instance.tables.all():
+                self.fields['tables'].initial = tables[0].pk
+
+    tables = forms.ModelChoiceField(
         queryset=Table.objects.all(),
-        widget=forms.SelectMultiple(attrs={'style': 'height: 100px'}),
-        required=False,
+        empty_label='Table not selected ...',
+        to_field_name='id',  # Change 'id' to the field you want to use as the value of the selected option
+        widget=forms.Select(attrs={'class': 'form-control'}),
     )
-    num_guests = forms.IntegerField(
+    bar_guests = forms.IntegerField(
         label="Guests at the bar",
         min_value=0,
         widget=forms.NumberInput(attrs={'class': 'dark-input'}),
-        initial=0
     )
 
     class Meta:
         model = Booking
-        fields = ('num_guests', 'tables')
+        fields = ('bar_guests', 'tables')
