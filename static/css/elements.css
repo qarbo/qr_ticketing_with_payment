@@ -163,11 +163,31 @@ input[type="submit"] {
     margin-top: 10px;
 }
 
-
-
 .only-mobile {
     display: none;
 }
+
+/* Dark Theme Styles */
+.booking-info-container {
+    background-color: #222;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.booking-info-container h2 {
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.booking-info-container p {
+    margin: 10px 0;
+}
+
+#restaurant-map {
+    display: none;
+}
+
 @media screen and (max-width: 650px) {
     #topLine {
         height: 40px;

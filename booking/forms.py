@@ -16,7 +16,7 @@ class BookingForm(forms.ModelForm):
                 self.fields['tables'].initial = tables[0].pk
 
     tables = forms.ModelChoiceField(
-        queryset=Table.objects.all(),
+        queryset=Table.objects.filter(booking=None),
         required=False,
         empty_label='Table not selected ...',
         to_field_name='id',  # Change 'id' to the field you want to use as the value of the selected option
@@ -25,6 +25,7 @@ class BookingForm(forms.ModelForm):
     bar_guests = forms.IntegerField(
         label="Guests at the bar",
         min_value=0,
+        initial=0,
         widget=forms.NumberInput(attrs={'class': 'dark-input'}),
     )
 

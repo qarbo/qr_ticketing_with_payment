@@ -6,7 +6,8 @@ var pgPushed = false;
 var menuPushed = false;
 var playgroundWidth = playground.offsetWidth;
 var menugroundWidth = menuground.offsetWidth;
-console.log(playgroundWidth);
+const toggleButton = document.getElementById('toggle-button');
+const hiddenContent = document.getElementById('restaurant-map');
 
 function pushField() {
     playgroundWidth = playground.offsetWidth;
@@ -45,6 +46,15 @@ function pushMenu() {
     }
 
 }
+
+toggleButton.addEventListener('click', () => {
+    if (hiddenContent.style.display === 'none') {
+        hiddenContent.style.display = 'block';
+    } else {
+        hiddenContent.style.display = 'none';
+    }
+});
+
 
 function logoButton() {
     if (pgPushed){

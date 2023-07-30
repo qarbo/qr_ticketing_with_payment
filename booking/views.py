@@ -74,8 +74,11 @@ def last_booking(request):
         booking = request.user.bookings.order_by('-created_at').first()
         form = BookingForm(instance=booking, user_id=request.user.id)
         pay_by = booking.created_at + timedelta(minutes=15)
+        table = booking.tables.all()[0] if booking.tables.all() else None
         return render(
-            request, 'last_booking.html', {'form': form, 'pay_by': pay_by, 'booking': booking}
+            request,
+            'last_booking.html',
+            {'form': form, 'pay_by': pay_by, 'booking': booking, 'table': table}
         )
     else:
         redirect('booking_page')

@@ -1,18 +1,27 @@
 <!-- home.html -->
 {% extends 'base.html' %}
 {% load static %}
+{% load tz %}
 
 {% block content %}
-    <div class="schemes-container">
-    <img class="lower-level" src="{% static '/img/lower_level.jpg' %}">
-    <img class="upper-level" src="{% static '/img/upper_level.jpg' %}">
-    </div>
+{#    <button id="toggle-button">Show Restaurant Map</button>#}
     {% if booking.paid %}
-    <p style="color: #f0f0f0">Your</p>
-    <h1>QR Code Generator</h1>
+    <div class="booking-info-container">
+        <h2>Booking Information</h2>
+        <p>Date: 8/18/23</p>
+        <p>Time: 9:00 PM</p>
+        {% if table %}
+        <p>Table: {{ table }}</p>
+            {% endif %}
+        <!-- Add more booking information here -->
+    </div>
     <img src="{% url 'generate_qr_code' booking.pk %}">
     {% else %}
-    <p style="color: #f0f0f0">You need to pay for this booking, otherwise it will be deleted at {{ pay_by }}</p>
+    <div class="schemes-container">
+        <img class="lower-level" src="{% static '/img/lower_level.jpg' %}">
+        <img class="upper-level" src="{% static '/img/upper_level.jpg' %}">
+    </div>
+    <p style="color: #f0f0f0">You need to pay for this booking, otherwise it will be deleted at {{ pay_by|localtime }}</p>
     <form action="/booking/create-checkout-session/" method="post">
         {% csrf_token %}
         {{ form.as_p }}
@@ -20,6 +29,7 @@
         <div class="final-price"></div>
         <button type="submit" id="checkout-button">Checkout</button>
     </form>
+    <a class="dark-link" href="{% url 'logout' %}">Delete pre-booking</a>
     {% endif %}
-        <a class="dark-link" href="{% url 'logout' %}">Delete booking</a>
+    <a class="margin-top-25 dark-link" href="{% url 'logout' %}">Logout</a>
 {% endblock %}
