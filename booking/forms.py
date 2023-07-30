@@ -17,6 +17,7 @@ class BookingForm(forms.ModelForm):
 
     tables = forms.ModelChoiceField(
         queryset=Table.objects.all(),
+        required=False,
         empty_label='Table not selected ...',
         to_field_name='id',  # Change 'id' to the field you want to use as the value of the selected option
         widget=forms.Select(attrs={'class': 'form-control'}),
@@ -26,6 +27,14 @@ class BookingForm(forms.ModelForm):
         min_value=0,
         widget=forms.NumberInput(attrs={'class': 'dark-input'}),
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        tables = cleaned_data.get('tables')
+        bar_guests = cleaned_data.get('bar_guests')
+
+        if not tables and not bar_guests:
+            raise forms.ValidationError("At least one of table or bar guest booking is required.")
 
     class Meta:
         model = Booking

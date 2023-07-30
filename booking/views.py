@@ -1,8 +1,11 @@
 from datetime import timedelta
+from io import BytesIO
 from typing import Optional
 
+import qrcode
 import stripe
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from booking.forms import BookingForm
@@ -58,8 +61,8 @@ def checkout(request):
         checkout_session = stripe.checkout.Session.create(
             line_items=line_items,
             mode="payment",
-            success_url=f"{request.META['HTTP_ORIGIN']}/booking/success/?booking={booking.payment_uuid}",
-            cancel_url=f"{request.META['HTTP_ORIGIN']}/",
+            success_url=f"{request.build_absolute_uri('/')}booking/success/?booking={booking.payment_uuid}",
+            cancel_url=f"{request.build_absolute_uri('/')}",
         )
         return redirect(checkout_session.url)
 
@@ -84,8 +87,30 @@ def delete_booking(request, pk):
 
 
 def success(request):
-    print(request)
-    return redirect('landing_page')
+    booking_payment_id = request.GET["booking"]
+    booking = Booking.objects.get(payment_uuid=booking_payment_id)
+    booking.paid = True
+    booking.save()
+    return redirect('last_booking')
+
+
+def generate_qr_code(request, booking_id):
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4
+    )
+
+    qr.add_data(f"{request.build_absolute_uri('/')}booking/scan?booking_id={booking_id}")
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    # Convert the image to bytes
+    buffer = BytesIO()
+    img.save(buffer)
+    return HttpResponse(buffer.getvalue(), content_type="image/png")
 
 
 def booking_info(request):
