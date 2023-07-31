@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from booking.forms import BookingForm
 from booking.models import Booking, Table
-from booking.utils import send_email_with_image, SUCCESSFULL_BOOKING_BODY
+from booking.utils import send_email_with_image, SUCCESSFULL_BOOKING_BODY, BOOKING_REQUEST_EMAIL
 from little_elista import settings
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -39,8 +39,15 @@ def checkout(request):
         booking.fullname = request.POST['fullname']
         booking.save()
         line_items = []
+        table_string = f"<li><strong>Table / Стол:</strong>{table}</li>" if table else ""
         send_email_with_image(
-            booking.email, "test", f"{request.build_absolute_uri('/')}booking/last_booking/{booking.id}"
+            booking.email,
+            "Booking Request Confirmation - Asia Days",
+            BOOKING_REQUEST_EMAIL.format(
+                fullname=booking.fullname,
+                booking_link=f"{request.build_absolute_uri('/')}booking/last_booking/{booking.id}",
+                table=table_string
+            )
         )
         if int(booking.bar_guests) > 0:
             line_items.append(
@@ -90,7 +97,10 @@ def success(request):
     booking = Booking.objects.get(payment_uuid=booking_payment_id)
     booking.paid = True
     booking.save()
-    email_body = SUCCESSFULL_BOOKING_BODY.format(fullname=booking.fullname, booking_id=booking.id)
+    email_body = SUCCESSFULL_BOOKING_BODY.format(
+        fullname=booking.fullname,
+        booking_id=booking.id,
+        qr_code_url=f"{request.build_absolute_uri('/')}booking/generate-qr-code/{booking.id}")
     send_email_with_image(booking.email, "DONE", email_body)
     return redirect('last_booking', booking_id=booking.id)
 
