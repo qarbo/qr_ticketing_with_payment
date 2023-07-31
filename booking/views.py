@@ -16,7 +16,6 @@ from little_elista import settings
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-# @login_required(login_url='login')
 def booking_page(request):
     form = BookingForm()
     return render(request, 'booking.html', {'form': form})
@@ -75,8 +74,11 @@ def checkout(request):
 
 def last_booking(request, booking_id):
     booking = Booking.objects.get(id=booking_id)
+    table = None
+    if tables := booking.tables.all():
+        table = tables[0]
     # booking = request.user.bookings.order_by('-created_at').first()
-    form = BookingForm(instance=booking, user_id=request.user.id)
+    form = BookingForm(instance=booking, table_id=table.id if table else None)
     pay_by = booking.created_at + timedelta(minutes=15)
     table = booking.tables.all()[0] if booking.tables.all() else None
     return render(
@@ -127,9 +129,3 @@ def generate_qr_code(request, booking_id):
 def booking_info(request):
     print(request)
     return redirect('landing_page')
-
-
-# def calculate_booking_cost(request):
-#     if request.method == 'POST':
-
-

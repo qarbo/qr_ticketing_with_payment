@@ -8,12 +8,12 @@ class BookingForm(forms.ModelForm):
     email = forms.EmailField(required=True, label="Email")
     fullname = forms.CharField(required=True, label="Full Name (as it appears on ID) / Полное имя (Как в Вашем ID)")
 
-    def __init__(self, *args, user_id=None, **kwargs):
+    def __init__(self, *args, table_id=None, **kwargs):
         super(BookingForm, self).__init__(*args, **kwargs)
 
         # Filter the queryset for the 'user' field based on the user_id
-        if user_id:
-            self.fields['tables'].queryset = Table.objects.filter(Q(booking=None) | Q(booking__user_id=user_id))
+        if table_id:
+            self.fields['tables'].queryset = Table.objects.filter(Q(booking=None) | Q(id=table_id))
             if tables := self.instance.tables.all():
                 self.fields['tables'].initial = tables[0].pk
 
