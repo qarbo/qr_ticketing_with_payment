@@ -1,13 +1,66 @@
-$(document).ready(function() {
-    var field1 = $("#field1");
-    var field2 = $("#field2");
 
-    // Function to toggle the visibility of the form fields
-    function toggleFields() {
-        field1.toggle();
-        field2.toggle();
+function updatePrice(priceDiv, type, regularSelectValue, tableSelectValue) {
+    let value;
+    if (type === "table") {
+        value = tableSelectValue;
+    } else {
+        value = regularSelectValue;
     }
+    $.ajax({
+        url: '/booking/get-price/', // Replace with the actual backend URL to handle the update
+        type: 'POST',
+        data: {
+            type: type,
+            value: value
+        },
+        success: function(response) {
+            // Update the price element with the response from the server
+            priceDiv.html('Final price / Итоговая цена: <strong>' + response['price'] + '$</strong>')
+            console.log(response)
+        },
+        error: function() {
+            priceDiv.text('Error while price getting / Ошибка при преподсчете цены')
+        }
+    });
+}
 
-    // Bind the toggleFields function to the click event of the toggle button
-    $("#toggle-button").on("click", toggleFields);
+$(document).ready(function() {
+
+    let typeSelect = $("#id_type");
+    let tableSelect = $('.tables-select');
+    let regularInput = $('.regular-select');
+    let finalPriceText = $('.final-price');
+    let tableSelectParent = tableSelect.closest('p');
+    let regularInputParent = regularInput.closest('p');
+    updatePrice(finalPriceText, typeSelect.val(), regularInput.val(), tableSelect.val());
+
+    tableSelectParent.hide();
+
+    // Function to show/hide elements based on the selected option
+    typeSelect.change(function() {
+        let selectedOption = $(this).val();
+        console.log(selectedOption);
+        if (selectedOption === "table") {
+            regularInputParent.hide();
+            tableSelectParent.show();
+        } else {
+            regularInputParent.show();
+            tableSelectParent.hide();
+        }
+        $(".hidden").hide(); // Hide all elements with class "hidden"
+        $("#" + selectedOption + "_div").show(); // Show the selected option's element
+        updatePrice(finalPriceText, typeSelect.val(), regularInput.val(), tableSelect.val());
+    });
+
+    // On page load, trigger the change event to set initial visibility
+    $("#my_field").trigger("change");
+
+    tableSelect.change(function() {
+        updatePrice(finalPriceText, typeSelect.val(), regularInput.val(), tableSelect.val());
+    });
+
+    regularInputParent.on('input', function() {
+        updatePrice(finalPriceText, typeSelect.val(), regularInput.val(), tableSelect.val());
+    });
+
 });

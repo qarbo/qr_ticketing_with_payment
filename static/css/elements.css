@@ -167,6 +167,10 @@ input[type="submit"] {
     display: none;
 }
 
+.booking-submit {
+    margin-top: 15px
+}
+
 /* Dark Theme Styles */
 .booking-info-container {
     background-color: #222;

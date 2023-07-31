@@ -157,3 +157,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
 STRIPE_SINGLE_PASS_PRICE = os.environ.get("STRIPE_SINGLE_PASS_PRICE")
+
+SINGLE_PASS_PRICE = int(os.environ.get("SINGLE_PASS_PRICE", 20))

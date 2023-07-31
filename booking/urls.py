@@ -9,4 +9,5 @@ urlpatterns = [
     path('last_booking/<str:booking_id>', views.last_booking, name='last_booking'),
     path('<int:pk>/delete/', views.delete_booking, name='delete_booking'),
     path('generate-qr-code/<str:booking_id>/', views.generate_qr_code, name='generate_qr_code'),
+    path('get-price/', views.get_price, name='get_price'),
 ] + staticfiles_urlpatterns()

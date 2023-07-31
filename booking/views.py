@@ -5,8 +5,9 @@ from typing import Optional
 import qrcode
 import stripe
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 
 from booking.forms import BookingForm
 from booking.models import Booking, Table
@@ -129,3 +130,20 @@ def generate_qr_code(request, booking_id):
 def booking_info(request):
     print(request)
     return redirect('landing_page')
+
+
+@csrf_exempt
+def get_price(request):
+    price = 0
+    booking_type = request.POST['type']
+    value = request.POST['value']
+    if booking_type == "regular_pass":
+        price = settings.SINGLE_PASS_PRICE * (int(value) if value else 0)
+    if booking_type == "table":
+        table = Table.objects.get(pk=value)
+        price = table.full_price
+    return JsonResponse(
+        {
+            "price": price
+        }
+    )

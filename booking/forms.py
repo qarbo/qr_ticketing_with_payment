@@ -17,19 +17,26 @@ class BookingForm(forms.ModelForm):
             if tables := self.instance.tables.all():
                 self.fields['tables'].initial = tables[0].pk
 
+    CHOICES = (
+        ('regular_pass', 'Regular pass / Стандартный вход'),
+        ('table', 'Table / Бронь стола'),
+    )
+
+    type = forms.ChoiceField(choices=CHOICES, label='Choose ticket type / Выберите тип билета')
+
     tables = forms.ModelChoiceField(
         queryset=Table.objects.filter(booking=None),
         required=False,
         empty_label='Table not selected ... / Стол не выбран ...',
-        label='Table / Стол',
+        label='Table / Бронь стола',
         to_field_name='id',  # Change 'id' to the field you want to use as the value of the selected option
-        widget=forms.Select(attrs={'class': 'form-control'}),
+        widget=forms.Select(attrs={'class': 'tables-select'}),
     )
     bar_guests = forms.IntegerField(
-        label="Guests at the bar / Гости у бара",
+        label="Regular pass / Стандартный вход",
         min_value=0,
         initial=0,
-        widget=forms.NumberInput(attrs={'class': 'dark-input'}),
+        widget=forms.NumberInput(attrs={'class': 'dark-input regular-select'}),
     )
 
     def clean(self):
@@ -42,4 +49,4 @@ class BookingForm(forms.ModelForm):
 
     class Meta:
         model = Booking
-        fields = ('email', 'fullname', 'bar_guests', 'tables')
+        fields = ('email', 'fullname', 'type', 'bar_guests', 'tables')
