@@ -14,7 +14,9 @@ def register_page(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+            user.set_unusable_password()
+            user.save()
             login(request, user)
             return redirect('booking_page')  # Redirect to a success page after registration
     else:

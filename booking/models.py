@@ -14,11 +14,17 @@ class CustomUserManager(BaseUserManager):
     for authentication instead of usernames.
     """
 
+    def create_user_without_password(self, username, email):
+        user = self.model(username=username, email=email)
+        user.set_unusable_password()  # Set the password as unusable
+        user.save(using=self._db)
+        return user
+
     def create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError(_('Users must have an email address'))
         email = self.normalize_email(email)
-        extra_fields.setdefault('username', email)
+        extra_fields.setdefault('username', uuid.uuid4)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save()
@@ -37,10 +43,10 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(_('email address'), unique=True)
+    email = models.EmailField(_('email address'))
     phone_number = models.CharField(max_length=15, unique=True)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ('phone_number',)
 
     objects = CustomUserManager()
@@ -52,7 +58,8 @@ class CustomUser(AbstractUser):
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     payment_uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='bookings')
+    email = models.EmailField(_('email address'))
+    fullname = models.CharField(max_length=512)
     bar_guests = models.PositiveIntegerField(default=0)
     checked_guests = models.PositiveIntegerField(default=0)
     paid = models.BooleanField(default=False)

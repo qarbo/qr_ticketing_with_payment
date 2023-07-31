@@ -10,30 +10,23 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from booking.forms import BookingForm
 from booking.models import Booking, Table
+from booking.utils import send_email_with_image, SUCCESSFULL_BOOKING_BODY
 from little_elista import settings
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def booking_page(request):
-    if request.user.bookings.all():
-        return redirect("last_booking")
-    email = request.user.email
     form = BookingForm()
-    return render(request, 'booking.html', {'form': form, 'email': email})
+    return render(request, 'booking.html', {'form': form})
 
 
-@login_required(login_url='login')
 def checkout(request):
     if request.method == 'POST':
         table: Optional[Table] = None
-        if request.user.bookings.all():
-            booking = request.user.bookings.order_by('-created_at').first()
-        else:
-            booking = Booking()
-            booking.user = request.user
-            booking.save()
+        booking = Booking()
+        booking.save()
         if table_ids := request.POST['tables']:
             table = get_object_or_404(Table, pk=table_ids[0])
             for current_table in booking.tables.all():
@@ -42,8 +35,13 @@ def checkout(request):
             table.booking = booking
             table.save()
         booking.bar_guests = request.POST['bar_guests']
+        booking.email = request.POST['email']
+        booking.fullname = request.POST['fullname']
         booking.save()
         line_items = []
+        send_email_with_image(
+            booking.email, "test", f"{request.build_absolute_uri('/')}booking/last_booking/{booking.id}"
+        )
         if int(booking.bar_guests) > 0:
             line_items.append(
                 {
@@ -68,20 +66,17 @@ def checkout(request):
         return redirect(checkout_session.url)
 
 
-@login_required(login_url='login')
-def last_booking(request):
-    if request.user.bookings.all():
-        booking = request.user.bookings.order_by('-created_at').first()
-        form = BookingForm(instance=booking, user_id=request.user.id)
-        pay_by = booking.created_at + timedelta(minutes=15)
-        table = booking.tables.all()[0] if booking.tables.all() else None
-        return render(
-            request,
-            'last_booking.html',
-            {'form': form, 'pay_by': pay_by, 'booking': booking, 'table': table}
-        )
-    else:
-        redirect('booking_page')
+def last_booking(request, booking_id):
+    booking = Booking.objects.get(id=booking_id)
+    # booking = request.user.bookings.order_by('-created_at').first()
+    form = BookingForm(instance=booking, user_id=request.user.id)
+    pay_by = booking.created_at + timedelta(minutes=15)
+    table = booking.tables.all()[0] if booking.tables.all() else None
+    return render(
+        request,
+        'last_booking.html',
+        {'form': form, 'pay_by': pay_by, 'booking': booking, 'table': table}
+    )
 
 
 def delete_booking(request, pk):
@@ -95,7 +90,9 @@ def success(request):
     booking = Booking.objects.get(payment_uuid=booking_payment_id)
     booking.paid = True
     booking.save()
-    return redirect('last_booking')
+    email_body = SUCCESSFULL_BOOKING_BODY.format(fullname=booking.fullname, booking_id=booking.id)
+    send_email_with_image(booking.email, "DONE", email_body)
+    return redirect('last_booking', booking_id=booking.id)
 
 
 def generate_qr_code(request, booking_id):
@@ -120,4 +117,9 @@ def generate_qr_code(request, booking_id):
 def booking_info(request):
     print(request)
     return redirect('landing_page')
+
+
+# def calculate_booking_cost(request):
+#     if request.method == 'POST':
+
 

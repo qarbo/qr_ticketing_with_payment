@@ -5,6 +5,8 @@ from booking.models import Booking, Table
 
 
 class BookingForm(forms.ModelForm):
+    email = forms.EmailField(required=True, label="Email")
+    fullname = forms.CharField(required=True, label="Full Name (as it appears on ID) / Полное имя (Как в Вашем ID)")
 
     def __init__(self, *args, user_id=None, **kwargs):
         super(BookingForm, self).__init__(*args, **kwargs)
@@ -18,12 +20,13 @@ class BookingForm(forms.ModelForm):
     tables = forms.ModelChoiceField(
         queryset=Table.objects.filter(booking=None),
         required=False,
-        empty_label='Table not selected ...',
+        empty_label='Table not selected ... / Стол не выбран ...',
+        label='Table / Стол',
         to_field_name='id',  # Change 'id' to the field you want to use as the value of the selected option
         widget=forms.Select(attrs={'class': 'form-control'}),
     )
     bar_guests = forms.IntegerField(
-        label="Guests at the bar",
+        label="Guests at the bar / Гости у бара",
         min_value=0,
         initial=0,
         widget=forms.NumberInput(attrs={'class': 'dark-input'}),
@@ -39,4 +42,4 @@ class BookingForm(forms.ModelForm):
 
     class Meta:
         model = Booking
-        fields = ('bar_guests', 'tables')
+        fields = ('email', 'fullname', 'bar_guests', 'tables')
