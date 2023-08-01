@@ -98,10 +98,10 @@ WSGI_APPLICATION = "little_elista.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'little_elista',
-        'USER': 'postgres',
-        'PASSWORD': 'qQ12wW34',
-        'HOST': 'localhost',  # Replace with the database host if necessary
+        'NAME': os.environ.get("DB_NAME"),
+        'USER': os.environ.get("DB_USER"),
+        'PASSWORD': os.environ.get("DB_PASSWORD"),
+        'HOST': os.environ.get("DB_HOST"),  # Replace with the database host if necessary
         'PORT': '5432',
     }
 }
