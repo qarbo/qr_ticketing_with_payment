@@ -48,15 +48,15 @@ def checkout(request):
         booking.save()
         line_items = []
         table_string = f"<li><strong>Table / Стол:</strong>{table}</li>" if table else ""
-        # send_email_with_image(
-        #     booking.email,
-        #     "Booking Request Confirmation - Asia Days",
-        #     BOOKING_REQUEST_EMAIL.format(
-        #         fullname=booking.fullname,
-        #         booking_link=f"{request.build_absolute_uri('/')}booking/last_booking/{booking.id}",
-        #         table=table_string
-        #     )
-        # )
+        send_email_with_image(
+            booking.email,
+            "Booking Request Confirmation - Asia Days",
+            BOOKING_REQUEST_EMAIL.format(
+                fullname=booking.fullname,
+                booking_link=f"{request.build_absolute_uri('/')}booking/last_booking/{booking.id}",
+                table=table_string
+            )
+        )
         if int(booking.bar_guests) > 0:
             line_items.append(
                 {
