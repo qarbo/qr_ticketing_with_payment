@@ -94,7 +94,7 @@ SUCCESSFULL_BOOKING_BODY = """
                 <li><strong>Date:</strong> August 18 at 9 PM</li>
                 <li><strong>Location:</strong> Lou Lou Lounge. 1836 McDonald Ave, Brooklyn NY, 11223</li>
         </ul>
-        <a href="https://asiadays.us" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Visit Asia Days Website</a>
+        <a href="{booking_link}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View you booking ticket</a>
         <p>You can also scan the QR code below for quick access:</p>
         <div style="text-align: center;">
             <img src="{qr_code_url}" alt="QR Code" style="max-width: 200px; margin: 20px auto;">
@@ -103,7 +103,7 @@ SUCCESSFULL_BOOKING_BODY = """
         <ul>
             <li>
                 <strong>Instagram:</strong>
-                <a href="https://https://www.instagram.com/asiadays/" target="_blank">AsiaDay instagram</a>
+                <a href="https://www.instagram.com/asiadays/" target="_blank">AsiaDay instagram</a>
             </li>
             <li>
                 <strong>Phone Number:</strong> 315-620-0713

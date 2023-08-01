@@ -25,16 +25,23 @@ def booking_page(request):
 def checkout(request):
     if request.method == 'POST':
         table: Optional[Table] = None
+        booking_type = request.POST['type']
         booking = Booking()
         booking.save()
-        if table_ids := request.POST['tables']:
-            table = get_object_or_404(Table, pk=table_ids[0])
+        if booking_type == 'regular_pass':
+            booking.bar_guests = request.POST['bar_guests']
             for current_table in booking.tables.all():
                 current_table.booking = None
                 current_table.save()
-            table.booking = booking
-            table.save()
-        booking.bar_guests = request.POST['bar_guests']
+        else:
+            if table_ids := request.POST['tables']:
+                table = get_object_or_404(Table, pk=table_ids[0])
+                for current_table in booking.tables.all():
+                    current_table.booking = None
+                    current_table.save()
+                table.booking = booking
+                table.save()
+                booking.bar_guests = 0
         booking.email = request.POST['email']
         booking.fullname = request.POST['fullname']
         booking.save()
@@ -103,6 +110,7 @@ def success(request):
     email_body = SUCCESSFULL_BOOKING_BODY.format(
         fullname=booking.fullname,
         booking_id=booking.id,
+        booking_link=f"{request.build_absolute_uri('/')}booking/success/?booking={booking.payment_uuid}",
         qr_code_url=f"{request.build_absolute_uri('/')}booking/generate-qr-code/{booking.id}")
     send_email_with_image(booking.email, "DONE", email_body)
     return redirect('last_booking', booking_id=booking.id)
@@ -136,12 +144,13 @@ def booking_info(request):
 def get_price(request):
     price = 0
     booking_type = request.POST['type']
-    value = request.POST['value']
+    value = request.POST.get('value', None)
     if booking_type == "regular_pass":
         price = settings.SINGLE_PASS_PRICE * (int(value) if value else 0)
     if booking_type == "table":
-        table = Table.objects.get(pk=value)
-        price = table.full_price
+        if value:
+            table = Table.objects.get(pk=value)
+            price = table.full_price
     return JsonResponse(
         {
             "price": price
