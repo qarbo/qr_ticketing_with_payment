@@ -25,7 +25,7 @@ def booking_page(request):
 def checkout(request):
     if request.method == 'POST':
         table: Optional[Table] = None
-        booking_type = request.POST['type']
+        booking_type = request.POST['selected_option']
         booking = Booking()
         booking.save()
         if booking_type == 'regular_pass':
@@ -44,18 +44,19 @@ def checkout(request):
                 booking.bar_guests = 0
         booking.email = request.POST['email']
         booking.fullname = request.POST['fullname']
+        booking.selected_option = booking_type
         booking.save()
         line_items = []
         table_string = f"<li><strong>Table / Стол:</strong>{table}</li>" if table else ""
-        send_email_with_image(
-            booking.email,
-            "Booking Request Confirmation - Asia Days",
-            BOOKING_REQUEST_EMAIL.format(
-                fullname=booking.fullname,
-                booking_link=f"{request.build_absolute_uri('/')}booking/last_booking/{booking.id}",
-                table=table_string
-            )
-        )
+        # send_email_with_image(
+        #     booking.email,
+        #     "Booking Request Confirmation - Asia Days",
+        #     BOOKING_REQUEST_EMAIL.format(
+        #         fullname=booking.fullname,
+        #         booking_link=f"{request.build_absolute_uri('/')}booking/last_booking/{booking.id}",
+        #         table=table_string
+        #     )
+        # )
         if int(booking.bar_guests) > 0:
             line_items.append(
                 {

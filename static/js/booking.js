@@ -26,7 +26,7 @@ function updatePrice(priceDiv, type, regularSelectValue, tableSelectValue) {
 
 $(document).ready(function() {
 
-    let typeSelect = $("#id_type");
+    let typeSelect = $("#id_selected_option");
     let tableSelect = $('.tables-select');
     let regularInput = $('.regular-select');
     let finalPriceText = $('.final-price');
@@ -34,12 +34,8 @@ $(document).ready(function() {
     let regularInputParent = regularInput.closest('p');
     updatePrice(finalPriceText, typeSelect.val(), regularInput.val(), tableSelect.val());
 
-    tableSelectParent.hide();
-
-    // Function to show/hide elements based on the selected option
-    typeSelect.change(function() {
-        let selectedOption = $(this).val();
-        console.log(selectedOption);
+    function updateSelectedOption() {
+        let selectedOption = typeSelect.val();
         if (selectedOption === "table") {
             regularInputParent.hide();
             tableSelectParent.show();
@@ -50,6 +46,14 @@ $(document).ready(function() {
         $(".hidden").hide(); // Hide all elements with class "hidden"
         $("#" + selectedOption + "_div").show(); // Show the selected option's element
         updatePrice(finalPriceText, typeSelect.val(), regularInput.val(), tableSelect.val());
+    }
+
+    tableSelectParent.hide();
+
+    // Function to show/hide elements based on the selected option
+    updateSelectedOption();
+    typeSelect.change(function() {
+        updateSelectedOption()
     });
 
     // On page load, trigger the change event to set initial visibility

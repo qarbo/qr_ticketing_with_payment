@@ -7,6 +7,12 @@ from django.utils.translation import gettext as _
 
 
 class Booking(models.Model):
+
+    CHOICES = (
+        ('regular_pass', 'Regular pass / Стандартный вход'),
+        ('table', 'Table / Бронь стола'),
+    )
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     payment_uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(_('email address'))
@@ -15,6 +21,7 @@ class Booking(models.Model):
     checked_guests = models.PositiveIntegerField(default=0)
     paid = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    selected_option = models.CharField(max_length=20, default='regular_pass', choices=CHOICES)
 
     # Add more fields as per your application's requirements
 

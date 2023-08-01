@@ -22,7 +22,7 @@ class BookingForm(forms.ModelForm):
         ('table', 'Table / Бронь стола'),
     )
 
-    type = forms.ChoiceField(choices=CHOICES, label='Choose ticket type / Выберите тип билета')
+    selected_option = forms.ChoiceField(choices=CHOICES, label='Choose ticket type / Выберите тип билета')
 
     tables = forms.ModelChoiceField(
         queryset=Table.objects.filter(booking=None),
@@ -49,4 +49,4 @@ class BookingForm(forms.ModelForm):
 
     class Meta:
         model = Booking
-        fields = ('email', 'fullname', 'type', 'bar_guests', 'tables')
+        fields = ('email', 'fullname', 'selected_option', 'bar_guests', 'tables')
