@@ -54,10 +54,10 @@ def run_scheduler():
     def delete_bookings():
         delete_old_bookings()
         # Schedule the next execution after 1 minute
-        scheduler.enter(1, 1, delete_bookings, ())
+        scheduler.enter(30, 1, delete_bookings, ())
 
     # Schedule the first execution after 1 minute
-    scheduler.enter(1, 1, delete_bookings, ())
+    scheduler.enter(30, 1, delete_bookings, ())
 
     # Run the scheduler
     scheduler.run()

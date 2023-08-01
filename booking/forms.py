@@ -1,8 +1,8 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.db.models import Q
 
 from booking.models import Booking, Table
-
 
 class BookingForm(forms.ModelForm):
     email = forms.EmailField(required=True, label="Email")

@@ -96,6 +96,8 @@ def last_booking(request, booking_id):
     )
 
 
+
+
 def delete_booking(request, pk):
     obj = get_object_or_404(Booking, id=pk)
     obj.delete()
@@ -112,7 +114,7 @@ def success(request):
         booking_id=booking.id,
         booking_link=f"{request.build_absolute_uri('/')}booking/success/?booking={booking.payment_uuid}",
         qr_code_url=f"{request.build_absolute_uri('/')}booking/generate-qr-code/{booking.id}")
-    send_email_with_image(booking.email, "DONE", email_body)
+    send_email_with_image(booking.email, "Booking Confirmation - Asia Days", email_body)
     return redirect('last_booking', booking_id=booking.id)
 
 
