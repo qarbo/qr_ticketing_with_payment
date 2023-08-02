@@ -5,6 +5,10 @@ function updatePrice(priceDiv, type, regularSelectValue, tableSelectValue) {
         value = tableSelectValue;
     } else {
         value = regularSelectValue;
+        if (value < 0) {
+            priceDiv.html('Wrong number / Неправильное число')
+            return
+        }
     }
     $.ajax({
         url: '/booking/get-price/', // Replace with the actual backend URL to handle the update
@@ -30,18 +34,37 @@ $(document).ready(function() {
     let tableSelect = $('.tables-select');
     let regularInput = $('.regular-select');
     let finalPriceText = $('.final-price');
+    let checkoutButton = $('.booking-submit-table');
     let tableSelectParent = tableSelect.closest('p');
     let regularInputParent = regularInput.closest('p');
     updatePrice(finalPriceText, typeSelect.val(), regularInput.val(), tableSelect.val());
+
+
+    function checkSubmitButtonForTable() {
+        if (tableSelect.val() === '') {
+            checkoutButton.prop("disabled", true);
+        } else {
+            checkoutButton.prop("disabled", false);
+        }
+    }
+    function checkSubmitButtonForRegularTicket() {
+        if (regularInput.val() === '0' || regularInput.val() === '') {
+            checkoutButton.prop("disabled", true);
+        } else {
+            checkoutButton.prop("disabled", false);
+        }
+    }
 
     function updateSelectedOption() {
         let selectedOption = typeSelect.val();
         if (selectedOption === "table") {
             regularInputParent.hide();
             tableSelectParent.show();
+            checkSubmitButtonForTable();
         } else {
             regularInputParent.show();
             tableSelectParent.hide();
+            checkSubmitButtonForRegularTicket();
         }
         $(".hidden").hide(); // Hide all elements with class "hidden"
         $("#" + selectedOption + "_div").show(); // Show the selected option's element
@@ -60,11 +83,14 @@ $(document).ready(function() {
     $("#my_field").trigger("change");
 
     tableSelect.change(function() {
+        checkSubmitButtonForTable();
         updatePrice(finalPriceText, typeSelect.val(), regularInput.val(), tableSelect.val());
     });
 
     regularInputParent.on('input', function() {
+        checkSubmitButtonForRegularTicket();
         updatePrice(finalPriceText, typeSelect.val(), regularInput.val(), tableSelect.val());
+
     });
 
 });

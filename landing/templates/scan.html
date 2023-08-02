@@ -7,7 +7,7 @@
     {% if booking.paid %}
     <div class="booking-info-container">
         <h2>Booking Information</h2>
-        <p>Hi {{ booking.fullname }}! Here's your booking information:</p>
+        <p>Full name: {{ booking.fullname }}</p>
         <p>Date: 8/18/23</p>
         <p>Time: 9:00 PM</p>
         {% if table %}
@@ -19,7 +19,7 @@
         <form action="/booking/scan/" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" id="checkout-button">Checkout</button>
+            <button type="submit" id="checkout-button">Check In</button>
         </form>
     </div>
     <img src="{% url 'generate_qr_code' booking.pk %}">

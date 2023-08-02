@@ -152,7 +152,7 @@ div.schemes-container img {
 }
 
 /* Style the submit button (you can customize this as well) */
-input[type="submit"] {
+button[type="submit"] {
     background-color: #444;
     color: #fff;
     border: none;
@@ -161,6 +161,11 @@ input[type="submit"] {
     cursor: pointer;
     font-size: 16px;
     margin-top: 10px;
+}
+
+button[type="submit"]:disabled {
+    background-color: #888; /* Change the background color for the disabled state */
+    cursor: not-allowed; /* Change the cursor to indicate that the button is disabled */
 }
 
 .only-mobile {
