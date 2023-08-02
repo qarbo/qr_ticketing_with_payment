@@ -13,7 +13,7 @@ class BookingForm(forms.ModelForm):
 
         # Filter the queryset for the 'user' field based on the user_id
         if table_id:
-            self.fields['tables'].queryset = Table.objects.filter(Q(booking=None) | Q(id=table_id))
+            self.fields['tables'].queryset = Table.objects.filter(Q(booking=None) | Q(id=table_id)).order_by("zone__name", "name")
             if tables := self.instance.tables.all():
                 self.fields['tables'].initial = tables[0].pk
 
@@ -25,7 +25,7 @@ class BookingForm(forms.ModelForm):
     selected_option = forms.ChoiceField(choices=CHOICES, label='Choose ticket type / Выберите тип билета')
 
     tables = forms.ModelChoiceField(
-        queryset=Table.objects.filter(booking=None),
+        queryset=Table.objects.filter(booking=None).order_by("zone__name", "name"),
         required=False,
         empty_label='Table not selected ... / Стол не выбран ...',
         label='Table / Бронь стола',
