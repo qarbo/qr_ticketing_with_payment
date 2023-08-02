@@ -48,7 +48,7 @@ $(document).ready(function() {
         }
     }
     function checkSubmitButtonForRegularTicket() {
-        if (regularInput.val() === '0' || regularInput.val() === '') {
+        if (regularInput.val() === '0' || regularInput.val() === '' || regularInput.val() < 0) {
             checkoutButton.prop("disabled", true);
         } else {
             checkoutButton.prop("disabled", false);
