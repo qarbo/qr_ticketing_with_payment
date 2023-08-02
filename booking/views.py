@@ -5,16 +5,25 @@ from typing import Optional
 import qrcode
 import stripe
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
-from booking.forms import BookingForm
+from booking.forms import BookingForm, GuestScanForm
 from booking.models import Booking, Table
 from booking.utils import send_email_with_image, SUCCESSFULL_BOOKING_BODY, BOOKING_REQUEST_EMAIL
 from little_elista import settings
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
+def get_guests_number(booking: Booking, table: Optional[Table]) -> int:
+    if table:
+        return table.number_of_seats
+    else:
+        return booking.bar_guests
+
 
 
 def booking_page(request):
@@ -29,7 +38,7 @@ def checkout(request):
         booking = Booking()
         booking.save()
         if booking_type == 'regular_pass':
-            booking.bar_guests = request.POST['bar_guests']
+            booking.bar_guests = int(request.POST['bar_guests'])
             for current_table in booking.tables.all():
                 current_table.booking = None
                 current_table.save()
@@ -82,19 +91,35 @@ def checkout(request):
 
 
 def last_booking(request, booking_id):
-    booking = Booking.objects.get(id=booking_id)
-    table = None
-    if tables := booking.tables.all():
-        table = tables[0]
-    # booking = request.user.bookings.order_by('-created_at').first()
-    form = BookingForm(instance=booking, table_id=table.id if table else None)
-    pay_by = booking.created_at + timedelta(minutes=15)
-    table = booking.tables.all()[0] if booking.tables.all() else None
-    return render(
-        request,
-        'last_booking.html',
-        {'form': form, 'pay_by': pay_by, 'booking': booking, 'table': table}
-    )
+    try:
+        booking = Booking.objects.get(id=booking_id)
+        table = booking.tables.all()[0] if booking.tables.all() else None
+        # booking = request.user.bookings.order_by('-created_at').first()
+        form = BookingForm(instance=booking, table_id=table.id if table else None)
+        pay_by = booking.created_at + timedelta(minutes=15)
+        total_guests_number = get_guests_number(booking, table)
+        return render(
+            request,
+            'last_booking.html',
+            {
+                'success': True,
+                'form': form,
+                'pay_by': pay_by,
+                'booking': booking,
+                "guests_number": total_guests_number,
+                'table': table
+            }
+        )
+    except (ObjectDoesNotExist, ValidationError):
+        return render(
+            request,
+            'last_booking.html',
+            {
+                'success': False
+            }
+        )
+
+
 
 
 
@@ -159,3 +184,30 @@ def get_price(request):
             "price": price
         }
     )
+
+
+@login_required(login_url='/')
+def scan_booking(request):
+    if request.method == "GET":
+        try:
+            booking_id = request.GET.get('booking_id')
+            booking = Booking.objects.get(id=booking_id)
+            table = booking.tables.all()[0] if booking.tables.all() else None
+            guests_number = get_guests_number(booking, table)
+            form = GuestScanForm()
+            form.fields['number_of_guests_to_scan'].max_value = guests_number - booking.checked_guests
+            return render(
+                request,
+                'scan.html',
+                {
+                    'success': True,
+                    'form': form,
+                    'booking': booking,
+                    'table': table,
+                    'guests_number': guests_number
+                }
+            )
+
+        except (ObjectDoesNotExist, ValidationError):
+            pass
+

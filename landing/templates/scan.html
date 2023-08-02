@@ -1,0 +1,32 @@
+<!-- home.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    {% if success %}
+    {% if booking.paid %}
+    <div class="booking-info-container">
+        <h2>Booking Information</h2>
+        <p>Hi {{ booking.fullname }}! Here's your booking information:</p>
+        <p>Date: 8/18/23</p>
+        <p>Time: 9:00 PM</p>
+        {% if table %}
+        <p>Table: {{ table }}</p>
+        {% endif %}
+        <p>Guests number: {{ guests_number }}</p>
+        <p>Checked in guests: {{ booking.checked_guests }}</p>
+
+        <form action="/booking/scan/" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" id="checkout-button">Checkout</button>
+        </form>
+    </div>
+    <img src="{% url 'generate_qr_code' booking.pk %}">
+    {% else %}
+    <p style="color: #f0f0f0">booking is not paid</p>
+        {% endif %}
+    {% else %}
+    <p style="color: #f0f0f0">The booking has expired or does not exist.</p>
+    {% endif %}
+{% endblock %}

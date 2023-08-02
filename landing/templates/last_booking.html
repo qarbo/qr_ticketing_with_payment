@@ -5,14 +5,17 @@
 
 {% block content %}
 {#    <button id="toggle-button">Show Restaurant Map</button>#}
+    {% if success %}
     {% if booking.paid %}
     <div class="booking-info-container">
         <h2>Booking Information</h2>
+        <p>Hi {{ booking.fullname }}! Here's your booking information:</p>
         <p>Date: 8/18/23</p>
         <p>Time: 9:00 PM</p>
         {% if table %}
         <p>Table: {{ table }}</p>
-            {% endif %}
+        {% endif %}
+        <p>Guests number: {{ guests_number }}</p>
         <!-- Add more booking information here -->
     </div>
     <img src="{% url 'generate_qr_code' booking.pk %}">
@@ -30,5 +33,8 @@
         <div class="final-price"></div>
         <button type="submit" id="checkout-button">Checkout</button>
     </form>
+        {% endif %}
+    {% else %}
+    <p style="color: #f0f0f0">The booking has expired or does not exist.</p>
     {% endif %}
 {% endblock %}

@@ -50,3 +50,16 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ('email', 'fullname', 'selected_option', 'bar_guests', 'tables')
+
+
+class GuestScanForm(forms.Form):
+    number_of_guests_to_scan = forms.IntegerField(
+        label="Number of Guests to Scan",
+        min_value=1,  # Set the minimum value to 1 or any other appropriate minimum
+        max_value=100,  # Set the maximum value to an appropriate number
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',  # Optional: Add CSS class for styling
+            'placeholder': 'Enter the number of guests to scan',
+        })
+    )
+
