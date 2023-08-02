@@ -30,7 +30,16 @@ def delete_old_bookings():
 
     try:
         # Delete rows older than ten minutes
+        update_query = """
+            UPDATE booking_table 
+            SET booking_id = NULL 
+            FROM booking_booking
+            WHERE booking_table.booking_id = booking_booking.id
+                AND booking_booking.created_at < %s
+                AND booking_booking.paid = false
+       """
         delete_query = "DELETE FROM booking_booking WHERE created_at < %s AND paid = false"
+        cursor.execute(update_query, (ten_minutes_ago,))
         cursor.execute(delete_query, (ten_minutes_ago,))
         deleted_rows = cursor.rowcount
 

@@ -26,7 +26,7 @@ class Booking(models.Model):
     # Add more fields as per your application's requirements
 
     def __str__(self):
-        return f"Booking {self.email} - {self.id} ({self.created_at})"
+        return f"{self.fullname} ({self.email}) - {self.id} ({self.created_at})"
 
 
 class Zone(models.Model):
