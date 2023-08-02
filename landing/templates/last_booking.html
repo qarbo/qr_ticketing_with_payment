@@ -37,4 +37,13 @@
     {% else %}
     <p style="color: #f0f0f0">The booking has expired or does not exist.</p>
     {% endif %}
+    <script>
+        $("body").on("submit", "form", function() {
+            $(".loading-container").css('display', 'flex');
+            $(this).submit(function() {
+                return false;
+            });
+            return true;
+        });
+    </script>
 {% endblock %}
