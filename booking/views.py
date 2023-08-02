@@ -35,7 +35,7 @@ def checkout(request):
                 current_table.save()
         else:
             if table_ids := request.POST['tables']:
-                table = get_object_or_404(Table, pk=table_ids[0])
+                table = get_object_or_404(Table, pk=table_ids)
                 for current_table in booking.tables.all():
                     current_table.booking = None
                     current_table.save()
