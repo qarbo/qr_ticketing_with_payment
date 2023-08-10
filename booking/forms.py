@@ -62,4 +62,3 @@ class GuestScanForm(forms.Form):
             'placeholder': 'Enter the number of guests to scan',
         })
     )
-
