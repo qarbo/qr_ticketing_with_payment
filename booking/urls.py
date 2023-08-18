@@ -11,4 +11,5 @@ urlpatterns = [
     path('generate-qr-code/<str:booking_id>/', views.generate_qr_code, name='generate_qr_code'),
     path('get-price/', views.get_price, name='get_price'),
     path('scan/', views.scan_booking, name='scan_booking'),
+    path('reminder/', views.reminder, name='reminder'),
 ] + staticfiles_urlpatterns()

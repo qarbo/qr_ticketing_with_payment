@@ -14,7 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from booking.forms import BookingForm, GuestScanForm
 from booking.models import Booking, Table, CheckIn
-from booking.utils import send_email_with_image, SUCCESSFULL_BOOKING_BODY, BOOKING_REQUEST_EMAIL
+from booking.utils import send_email_with_image, SUCCESSFULL_BOOKING_BODY, BOOKING_REQUEST_EMAIL, REMINDER_BOOKING_BODY
 from little_elista import settings
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -240,3 +240,22 @@ def scan_booking(request):
             )
             return redirect(request.path_info + "?" + params)
 
+
+# @login_required(login_url='/')
+@csrf_exempt
+def reminder(request):
+    if request.method == "POST":
+        bookings = Booking.objects.filter(paid=True).all()
+        for booking in bookings:
+            email_body = REMINDER_BOOKING_BODY.format(
+                fullname=booking.fullname,
+                booking_id=booking.id,
+                booking_link=f"{request.build_absolute_uri('/')}booking/success/?booking={booking.payment_uuid}",
+                qr_code_url=f"{request.build_absolute_uri('/')}booking/generate-qr-code/{booking.id}")
+            send_email_with_image(booking.email, "AsiaDays - Reminder", email_body)
+            print("Done")
+            return JsonResponse(
+                {
+                    "success": True
+                }
+            )

@@ -118,6 +118,45 @@ SUCCESSFULL_BOOKING_BODY = """
 """
 
 
+REMINDER_BOOKING_BODY = """
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Are you ready?</title>
+</head>
+<body>
+    <div style="background-color: #f7f7f7; padding: 20px; font-family: Arial, sans-serif;">
+        <h1 style="color: #4CAF50;">Are you ready?</h1>
+        <p>Hi {fullname},</p>
+        <p>We're expecting you today at 9 p.m.! The first 20 ladies will receive a glass of prosecco and a signature cupcake!</p>
+        <ul>
+                <li><strong>Location:</strong> Lou Lou Lounge. 1836 McDonald Ave, Brooklyn NY, 11223</li>
+        </ul>
+        <a href="{booking_link}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View you booking ticket</a>
+        <p>You can also scan the QR code below for quick access:</p>
+        <div style="text-align: center;">
+            <img src="{qr_code_url}" alt="QR Code" style="max-width: 200px; margin: 20px auto;">
+        </div>
+        <p>If you have any questions or need further assistance, please don't hesitate to contact us at:</p>
+        <ul>
+            <li>
+                <strong>Instagram:</strong>
+                <a href="https://www.instagram.com/asiadays/" target="_blank">AsiaDay instagram</a>
+            </li>
+            <li>
+                <strong>Phone Number:</strong> 315-620-0713
+            </li>
+            <!-- Add more contact information as needed -->
+        </ul>
+        <p>Thank you for choosing Asia Days! We look forward to seeing you soon.</p>
+        <p>Best regards,<br>Asia Days Team</p>
+    </div>
+</body>
+</html>
+"""
+
+
 def send_email_with_image(to_email, subject, body):
     try:
         # Set up the SMTP server
