@@ -232,7 +232,7 @@ def scan_booking(request):
             return redirect(request.path_info + "?" + params)
         else:
             params = urlencode(
-                {"booking_id": booking.id, "success": False, "message": f"{checked_guests} more tham available for this booking"}
+                {"booking_id": booking.id, "success": False, "message": f"{checked_guests} is more than available for this booking"}
             )
             return redirect(request.path_info + "?" + params)
 
