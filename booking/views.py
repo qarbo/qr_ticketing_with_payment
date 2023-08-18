@@ -1,6 +1,8 @@
 from datetime import timedelta
 from io import BytesIO
 from typing import Optional
+import re
+from urllib.parse import urlencode
 
 import qrcode
 import stripe
@@ -120,10 +122,6 @@ def last_booking(request, booking_id):
         )
 
 
-
-
-
-
 def delete_booking(request, pk):
     obj = get_object_or_404(Booking, id=pk)
     obj.delete()
@@ -190,8 +188,14 @@ def get_price(request):
 def scan_booking(request):
     if request.method == "GET":
         try:
+            action_success = None
+            action_performed = False
             booking_id = request.GET.get('booking_id')
             booking = Booking.objects.get(id=booking_id)
+            message = request.GET.get("message", "")
+            if request.GET.get("success") is not None:
+                action_success = True if request.GET["success"] == "True" else False
+                action_performed = True
             table = booking.tables.all()[0] if booking.tables.all() else None
             guests_number = get_guests_number(booking, table)
             form = GuestScanForm()
@@ -200,14 +204,35 @@ def scan_booking(request):
                 request,
                 'scan.html',
                 {
-                    'success': True,
+                    "success": True,
                     'form': form,
                     'booking': booking,
                     'table': table,
-                    'guests_number': guests_number
+                    'guests_number': guests_number,
+                    'action_performed': action_performed,
+                    'action_success': action_success,
+                    'message': message
                 }
             )
 
         except (ObjectDoesNotExist, ValidationError):
             pass
+    elif request.method == "POST":
+        booking_id = re.findall(r"booking_id=(.+?)&", request.META['HTTP_REFERER'])[0]
+        booking = Booking.objects.get(id=booking_id)
+        checked_guests = int(request.POST['number_of_guests_to_scan'])
+        table = booking.tables.all()[0] if booking.tables.all() else None
+        guests_number = get_guests_number(booking, table)
+        if checked_guests <= (guests_number - booking.checked_guests):
+            booking.checked_guests += checked_guests
+            booking.save()
+            params = urlencode(
+                {"booking_id": booking.id, "success": True, "message": f"{checked_guests} successfully checked in"}
+            )
+            return redirect(request.path_info + "?" + params)
+        else:
+            params = urlencode(
+                {"booking_id": booking.id, "success": False, "message": f"{checked_guests} more tham available for this booking"}
+            )
+            return redirect(request.path_info + "?" + params)
 

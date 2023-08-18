@@ -15,12 +15,30 @@
         {% endif %}
         <p>Guests number: {{ guests_number }}</p>
         <p>Checked in guests: {{ booking.checked_guests }}</p>
-
+        {% if action_performed %}
+            {% if action_success %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="98" height="98" viewBox="0 0 48 48" style="fill:green;">
+            <path d="M18 30.17L14.83 27L13.42 28.41L18 33L30 21L28.59 19.59L18 30.17Z"/>
+        </svg>
+            {% else %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" style="fill:red;">
+            <path d="M31.06 24L46 38.94L38.94 46L24 31.06L9.06 46L2 38.94L16.94 24L2 9.06L9.06 2L24 16.94L38.94 2L46 9.06L31.06 24Z"/>
+        </svg>
+            {% endif %}
+        <p>{{ message }}</p>
+        {% endif %}
+        {% if booking.checked_guests < guests_number %}
         <form action="/booking/scan/" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" id="checkout-button">Check In</button>
         </form>
+            {% else %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="98" height="98" viewBox="0 0 48 48" style="fill:green;">
+            <path d="M18 30.17L14.83 27L13.42 28.41L18 33L30 21L28.59 19.59L18 30.17Z"/>
+        </svg>
+            <p>All guests successfully checked in</p>
+            {% endif %}
     </div>
     <img src="{% url 'generate_qr_code' booking.pk %}">
     {% else %}
