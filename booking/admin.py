@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from booking.models import Booking, Payment, Table, Zone
+from booking.models import Booking, Payment, Table, Zone, CheckIn
 
 admin.site.register(Payment)
 admin.site.register(Zone)
@@ -8,7 +8,11 @@ admin.site.register(Table)
 
 class TableInline(admin.TabularInline):
     model = Table
-    extra = 1  # Number of empty forms to display for adding new related tables
+    extra = 0  # Number of empty forms to display for adding new related tables
+
+class CheckinInline(admin.TabularInline):
+    model = CheckIn
+    extra = 0  # Number of empty forms to display for adding new related tables
 
 class BookingAdmin(admin.ModelAdmin):
     list_display = (
@@ -28,6 +32,15 @@ class BookingAdmin(admin.ModelAdmin):
         return ', '.join([str(table) for table in related_tables])
 
     display_related_tables.short_description = 'Related Tables'
-    inlines = [TableInline]
+    inlines = [TableInline, CheckinInline]
 
 admin.site.register(Booking, BookingAdmin)
+
+class CheckInAdmin(admin.ModelAdmin):
+    list_display = (
+        'booking',
+        'guests_checked_in',
+        'checkin_time',
+    )
+
+admin.site.register(CheckIn, CheckInAdmin)

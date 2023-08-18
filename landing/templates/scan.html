@@ -1,6 +1,7 @@
 <!-- home.html -->
 {% extends 'base.html' %}
 {% load static %}
+{% load tz %}
 
 {% block content %}
     {% if success %}
@@ -39,6 +40,16 @@
         </svg>
             <p>All guests successfully checked in</p>
             {% endif %}
+
+        {% timezone "America/New_York" %}
+        {% for checkin in previous_checkins %}
+
+        <div class="checkin-details">
+        Time: {{ checkin.checkin_time }}<br>
+        Guests: {{ checkin.guests_checked_in }}
+        </div>
+        {% endfor %}
+        {% endtimezone %}
     </div>
     <img src="{% url 'generate_qr_code' booking.pk %}">
     {% else %}

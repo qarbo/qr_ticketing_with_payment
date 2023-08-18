@@ -133,6 +133,13 @@ a.dark-link:hover {
     margin-bottom: 25px;
 }
 
+.checkin-details {
+    background-color: #050505;
+    padding: 8px;
+    border-radius: 5px;
+    color: white;
+}
+
 @media screen and (max-width: 650px) {
     .text-block {
         width: 100%;

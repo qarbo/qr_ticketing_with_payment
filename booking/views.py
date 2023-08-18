@@ -13,7 +13,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
 from booking.forms import BookingForm, GuestScanForm
-from booking.models import Booking, Table
+from booking.models import Booking, Table, CheckIn
 from booking.utils import send_email_with_image, SUCCESSFULL_BOOKING_BODY, BOOKING_REQUEST_EMAIL
 from little_elista import settings
 
@@ -192,6 +192,7 @@ def scan_booking(request):
             action_performed = False
             booking_id = request.GET.get('booking_id')
             booking = Booking.objects.get(id=booking_id)
+            checkins = booking.checkins.all()
             message = request.GET.get("message", "")
             if request.GET.get("success") is not None:
                 action_success = True if request.GET["success"] == "True" else False
@@ -211,7 +212,8 @@ def scan_booking(request):
                     'guests_number': guests_number,
                     'action_performed': action_performed,
                     'action_success': action_success,
-                    'message': message
+                    'message': message,
+                    'previous_checkins': checkins
                 }
             )
 
@@ -224,6 +226,8 @@ def scan_booking(request):
         table = booking.tables.all()[0] if booking.tables.all() else None
         guests_number = get_guests_number(booking, table)
         if checked_guests <= (guests_number - booking.checked_guests):
+            checkin = CheckIn(booking=booking, guests_checked_in=checked_guests)
+            checkin.save()
             booking.checked_guests += checked_guests
             booking.save()
             params = urlencode(
