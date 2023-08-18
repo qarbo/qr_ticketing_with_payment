@@ -218,7 +218,7 @@ def scan_booking(request):
         except (ObjectDoesNotExist, ValidationError):
             pass
     elif request.method == "POST":
-        booking_id = re.findall(r"booking_id=(.+?)&", request.META['HTTP_REFERER'])[0]
+        booking_id = re.findall(r"booking_id=([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})", request.META['HTTP_REFERER'])[0]
         booking = Booking.objects.get(id=booking_id)
         checked_guests = int(request.POST['number_of_guests_to_scan'])
         table = booking.tables.all()[0] if booking.tables.all() else None
