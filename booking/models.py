@@ -62,3 +62,12 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Booking: {self.booking} - Amount: {self.amount}"
+
+
+class CheckIn(models.Model):
+    booking = models.ForeignKey(Booking, on_delete=models.SET_NULL, null=True, blank=True, related_name='checkins')
+    guests_checked_in = models.PositiveIntegerField(default=0)
+    checkin_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Booking: {self.booking} - When: {self.checkin_time}"
