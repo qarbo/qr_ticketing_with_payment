@@ -131,14 +131,16 @@ def delete_booking(request, pk):
 def success(request):
     booking_payment_id = request.GET["booking"]
     booking = Booking.objects.get(payment_uuid=booking_payment_id)
+    was_paid = booking.paid
     booking.paid = True
     booking.save()
     email_body = SUCCESSFULL_BOOKING_BODY.format(
         fullname=booking.fullname,
         booking_id=booking.id,
-        booking_link=f"{request.build_absolute_uri('/')}booking/success/?booking={booking.payment_uuid}",
+        booking_link=f"{request.build_absolute_uri('/')}booking/last_booking/{booking.id}",
         qr_code_url=f"{request.build_absolute_uri('/')}booking/generate-qr-code/{booking.id}")
-    send_email_with_image(booking.email, "Booking Confirmation - Asia Days", email_body)
+    if not was_paid:
+        send_email_with_image(booking.email, "Booking Confirmation - Asia Days", email_body)
     return redirect('last_booking', booking_id=booking.id)
 
 
@@ -250,8 +252,8 @@ def reminder(request):
             email_body = REMINDER_BOOKING_BODY.format(
                 fullname=booking.fullname,
                 booking_id=booking.id,
-                booking_link=f"{request.build_absolute_uri('/')}booking/success/?booking={booking.payment_uuid}",
-                qr_code_url=f"{request.build_absolute_uri('/')}booking/generate-qr-code/{booking.id}")
+                booking_link=f"https://asiadays.us/booking/last_booking/{booking.id}",
+                qr_code_url=f"https://asiadays.us/booking/generate-qr-code/{booking.id}")
             send_email_with_image(booking.email, "AsiaDays - Reminder", email_body)
             print("Done")
             return JsonResponse(
