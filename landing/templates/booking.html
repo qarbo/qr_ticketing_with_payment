@@ -7,14 +7,14 @@
     </div>
 
 
-    <form id="booking-form" action="/booking/create-checkout-session/" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <p style="color: #ababab; font-size: 12px">You will see your ticket on the website after payment, and it will be sent to your email</p>
-        <p style="color: #ababab; font-size: 12px">Билет будет доступен Вам на сайте после оплаты и будет отправлен на ваш email</p>
-        <button type="submit" class="booking-submit-table" value="table">Checkout / Перейти к оплате</button>
-        <p class="final-price">Final price / Итоговая цена: 0</p>
-    </form>
+{#    <form id="booking-form" action="/booking/create-checkout-session/" method="post">#}
+{#        {% csrf_token %}#}
+{#        {{ form.as_p }}#}
+{#        <p style="color: #ababab; font-size: 12px">You will see your ticket on the website after payment, and it will be sent to your email</p>#}
+{#        <p style="color: #ababab; font-size: 12px">Билет будет доступен Вам на сайте после оплаты и будет отправлен на ваш email</p>#}
+{#        <button type="submit" class="booking-submit-table" value="table">Checkout / Перейти к оплате</button>#}
+{#        <p class="final-price">Final price / Итоговая цена: 0</p>#}
+{#    </form>#}
 
     <script>
         $("body").on("submit", "form", function() {

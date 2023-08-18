@@ -246,18 +246,18 @@ def scan_booking(request):
 # @login_required(login_url='/')
 @csrf_exempt
 def reminder(request):
-    if request.method == "POST":
-        bookings = Booking.objects.filter(paid=True).all()
-        for booking in bookings:
-            email_body = REMINDER_BOOKING_BODY.format(
-                fullname=booking.fullname,
-                booking_id=booking.id,
-                booking_link=f"https://asiadays.us/booking/last_booking/{booking.id}",
-                qr_code_url=f"https://asiadays.us/booking/generate-qr-code/{booking.id}")
-            send_email_with_image(booking.email, "AsiaDays - Reminder", email_body)
-            print("Done")
-            return JsonResponse(
-                {
-                    "success": True
-                }
-            )
+    bookings = Booking.objects.filter(paid=True).all()
+    number_of_guests = 0
+    checked_in_guests = 0
+    for booking in bookings:
+        table = booking.tables.all()[0] if booking.tables.all() else None
+        guests_number = get_guests_number(booking, table)
+        number_of_guests += guests_number
+        checked_in_guests += booking.checked_guests
+        # print("Done")
+    return JsonResponse(
+        {
+            "guests_number": number_of_guests,
+            "checked_in_guests": checked_in_guests
+        }
+    )
