@@ -23,6 +23,7 @@ django-phonenumber-field = "^7.1.0"
 django-phonenumbers = "^1.0.1"
 pydantic-settings = "^2.0.2"
 qrcode = "^7.4.2"
+python-dotenv = "^1.0.0"
 
 
 [build-system]
