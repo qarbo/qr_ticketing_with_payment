@@ -22,7 +22,7 @@ BOOKING_REQUEST_EMAIL = """
             <p>Dear {fullname},</p>
             <p>Thank you for submitting a booking request with Asia Days. We have received your request and will process it as soon as possible. Here are the details:</p>
             <ul>
-                <li><strong>Date:</strong> August 18 at 9 PM</li>
+                <li><strong>Date:</strong> September 22 at 9 PM</li>
                 <li><strong>Location:</strong> Lou Lou Lounge. 1836 McDonald Ave, Brooklyn NY, 11223</li>
                 {table}
             </ul>
@@ -91,7 +91,7 @@ SUCCESSFULL_BOOKING_BODY = """
         <p>Dear {fullname},</p>
         <p>We are excited to confirm your booking with Asia Days. Here are the details:</p>
         <ul>
-                <li><strong>Date:</strong> August 18 at 9 PM</li>
+                <li><strong>Date:</strong> September 22 at 9 PM</li>
                 <li><strong>Location:</strong> Lou Lou Lounge. 1836 McDonald Ave, Brooklyn NY, 11223</li>
         </ul>
         <a href="{booking_link}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View you booking ticket</a>
