@@ -3,10 +3,34 @@
 {% load static %}
 
 {% block content %}
-    <div class="schemes-container">
-    <img class="lower-level" src="{% static '/img/lower_level.jpg' %}">
-    <img class="upper-level" src="{% static '/img/upper_level.jpg' %}">
+
+    <h3 style="color: lightgray">Select floor</h3>
+    <button class="toggle-button toggle-button">Bar Tabs</button>
+    <div class="toggle-content" style="display: none">
+        <img class="scheme-image" src="{% static '/img/map_bar.png' %}">
     </div>
+
+    <button class="toggle-button toggle-button">Sakura</button>
+    <div class="toggle-content" style="display: none">
+        <img class="upper-level" src="{% static '/img/map_sakura.png' %}">
+    </div>
+
+    <button class="toggle-button toggle-button">Stage</button>
+    <div class="toggle-content" style="display: none">
+        <img class="upper-level" src="{% static '/img/map_stage.png' %}">
+    </div>
+
+    <button class="toggle-button toggle-button">View</button>
+    <div class="toggle-content" style="display: none">
+        <img class="upper-level" src="{% static '/img/map_view.png' %}">
+    </div>
+
+<!--    <div class="schemes-container">-->
+<!--        <img class="scheme-image" src="{% static '/img/map_bar.png' %}">-->
+<!--        <img class="upper-level" src="{% static '/img/map_sakura.png' %}">-->
+<!--        <img class="upper-level" src="{% static '/img/map_stage.png' %}">-->
+<!--        <img class="upper-level" src="{% static '/img/map_view.png' %}">-->
+<!--    </div>-->
 
 
     <form id="booking-form" action="/booking/create-checkout-session/" method="post">
@@ -25,6 +49,14 @@
                 return false;
             });
             return true;
+        });
+        const toggleButtons = document.querySelectorAll('.toggle-button');
+        const toggleContents = document.querySelectorAll('.toggle-content');
+
+        toggleButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                toggleContents[index].style.display = toggleContents[index].style.display === 'none' ? 'block' : 'none';
+            });
         });
     </script>
 {% endblock %}

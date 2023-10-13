@@ -112,11 +112,6 @@ select option:focus {
   background-color: #555;
 }
 
-div.schemes-container, img {
-    margin: 0;
-    padding: 0;
-}
-
 /* Set the container width to accommodate the two images */
 div.schemes-container {
     display: flex;
@@ -130,7 +125,7 @@ div.schemes-container {
 
 /* Set the image width to 50% to display them side by side */
 div.schemes-container img {
-    height: 500px;
+    width: 45%
     display: inline-block;
     vertical-align: top; /* Align images to the top to avoid extra spacing */
     margin-top: 5px;
@@ -174,6 +169,24 @@ button[type="submit"]:disabled {
 
 .booking-submit {
     margin-top: 15px
+}
+
+.toggle-button {
+    width: 200px;
+    background-color: gray;
+    padding: 10px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.toggle-button:hover {
+    background-color: lightgray; /* Change the background color on hover */
 }
 
 /* Dark Theme Styles */
