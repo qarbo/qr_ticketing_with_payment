@@ -22,8 +22,8 @@ BOOKING_REQUEST_EMAIL = """
             <p>Dear {fullname},</p>
             <p>Thank you for submitting a booking request with Asia Days. We have received your request and will process it as soon as possible. Here are the details:</p>
             <ul>
-                <li><strong>Date:</strong> September 22 at 9 PM</li>
-                <li><strong>Location:</strong> Lou Lou Lounge. 1836 McDonald Ave, Brooklyn NY, 11223</li>
+                <li><strong>Date:</strong> October 30 at 8 PM</li>
+                <li><strong>Location:</strong> SKY WISE ASIAN LOUNGE. 12027 Emmons ave, Brooklyn, NY</li>
                 {table}
             </ul>
             <p>To confirm your booking, please make the payment within the next 10 minutes. After that, the booking request will expire.</p>
@@ -50,8 +50,8 @@ BOOKING_REQUEST_EMAIL = """
             <p>Привет, {fullname},</p>
             <p>Благодарим за подачу запроса на бронирование с Asia Days. Мы получили ваш запрос и обработаем его в кратчайшие сроки. Вот детали вашего запроса:</p>
             <ul>
-                <li><strong>Дата: 18 Августа в 9 вечера</li>
-                <li><strong>Местоположение:</strong> Lou Lou Lounge. 1836 McDonald Ave, Brooklyn NY, 11223</li>
+                <li><strong>Дата: 30 Октября в 8 вечера</li>
+                <li><strong>Местоположение:</strong> SKY WISE ASIAN LOUNGE. 12027 Emmons ave, Brooklyn, NY</li>
                 {table}
                 <!-- Add more booking request details here as needed -->
             </ul>
@@ -91,8 +91,8 @@ SUCCESSFULL_BOOKING_BODY = """
         <p>Dear {fullname},</p>
         <p>We are excited to confirm your booking with Asia Days. Here are the details:</p>
         <ul>
-                <li><strong>Date:</strong> September 22 at 9 PM</li>
-                <li><strong>Location:</strong> Lou Lou Lounge. 1836 McDonald Ave, Brooklyn NY, 11223</li>
+                <li><strong>Date:</strong> October 30 at 8 PM</li>
+                <li><strong>Location:</strong> SKY WISE ASIAN LOUNGE. 12027 Emmons ave, Brooklyn, NY</li>
         </ul>
         <a href="{booking_link}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View you booking ticket</a>
         <p>You can also scan the QR code below for quick access:</p>
@@ -129,9 +129,9 @@ REMINDER_BOOKING_BODY = """
     <div style="background-color: #f7f7f7; padding: 20px; font-family: Arial, sans-serif;">
         <h1 style="color: #4CAF50;">Are you ready?</h1>
         <p>Hi {fullname},</p>
-        <p>We're expecting you today at 9 p.m.! The first 20 ladies will receive a glass of prosecco and a signature cupcake!</p>
+        <p>We're expecting you today at 9 p.m.!</p>
         <ul>
-                <li><strong>Location:</strong> Lou Lou Lounge. 1836 McDonald Ave, Brooklyn NY, 11223</li>
+                <li><strong>Location:</strong> SKY WISE ASIAN LOUNGE. 12027 Emmons ave, Brooklyn, NY</li>
         </ul>
         <a href="{booking_link}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View you booking ticket</a>
         <p>You can also scan the QR code below for quick access:</p>
